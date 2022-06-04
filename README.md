@@ -68,3 +68,103 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+/// Projects
+import React, { useState, useEffect } from "react";
+
+export default function Projects() {
+  const data = [
+    { id: "1", title: "Project1" },
+    { id: "2", title: "Project2" },
+  ];
+  const [proremove, setProremove] = useState(data);
+  const [input, setInput] = useState();
+  const [id, Setid] = useState(2);
+  const[isVisible,SetisVisible]=useState(false)
+
+  const handleInput = (e) => {
+    e.preventDefault();
+    console.log(input);
+  };
+
+  const add = (e) => {
+    e.preventDefault();
+    const name = input;
+    const ids = proremove.map((post) => {
+      return post.id;
+    });
+    const id = Math.max.apply(null, ids) + 1;
+    const post = { id: id, title: name };
+    let posts = proremove.concat(post);
+    setProremove(posts);
+  };
+
+  const remove = (id) => {
+    const newproremove = proremove.filter((item) => item.id !== id);
+    setProremove(newproremove);
+  };
+
+
+  const editproject=(id,title, e)=>{
+    e.preventDefault();
+    console.log("edited",id)
+    SetisVisible(id)
+    
+    }
+
+
+
+
+  return (
+    <div>
+      <form className="form">
+        <center>
+          <h4>Project</h4>
+        </center>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>title</th>
+              <th>action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {proremove.map((item, index) => {
+              return (
+                <tr key="index">
+                    {isVisible===item.id ?
+                    <div>
+                    <input type="text" /><br/>
+                    </div>:
+             <div>
+                  <td> {item.id}</td>
+                  <td> {item.title}</td>
+                  </div>
+                  }
+                  <button onClick={()=>{editproject(item.id,item.title)}}>Edit</button>
+                  <button onClick={() => remove(item.id)}>Remove</button>
+                    
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>{" "}
+        <br />
+        <br />
+        <input
+          type="text"
+          placeholder="Enter Project Name"
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button onClick={add} type="submit">
+          Add Project
+        </button><br/><br/>
+      </form>
+     
+    </div>
+  );
+}
+
+
